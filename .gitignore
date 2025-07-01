@@ -6,6 +6,9 @@ yarn-error.log*
 
 # Environment variables
 .env
+env.txt
+server/env.txt
+**/env.txt
 
 # Runtime data
 pids
