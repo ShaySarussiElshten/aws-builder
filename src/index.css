@@ -1,3 +1,95 @@
+@import 'reactflow/dist/style.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ReactFlow specific overrides to ensure proper display */
+.react-flow {
+  background: transparent !important;
+}
+
+.react-flow__viewport {
+  background: transparent !important;
+}
+
+.react-flow__renderer {
+  background: transparent !important;
+}
+
+.react-flow__pane {
+  background: transparent !important;
+}
+
+/* Ensure proper node styling */
+.react-flow__node {
+  border-radius: 12px;
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Fix edge styling */
+.react-flow__edge {
+  z-index: 1;
+}
+
+.react-flow__edge.selected {
+  z-index: 2;
+}
+
+/* Controls styling */
+.react-flow__controls {
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.react-flow__controls-button {
+  border-radius: 8px;
+  background: rgba(30, 41, 59, 0.9);
+  color: #00D4E6;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.react-flow__controls-button:hover {
+  background: rgba(51, 65, 85, 0.9);
+}
+
+/* MiniMap styling */
+.react-flow__minimap {
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+/* Attribution */
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* Ensure no white backgrounds anywhere */
+.react-flow__handle {
+  border: 2px solid !important;
+}
+
+.react-flow__handle.react-flow__handle-top,
+.react-flow__handle.react-flow__handle-bottom,
+.react-flow__handle.react-flow__handle-left,
+.react-flow__handle.react-flow__handle-right {
+  background: transparent !important;
+}
+
+/* Remove any default white backgrounds from ReactFlow elements */
+.react-flow__node-default,
+.react-flow__node-input,
+.react-flow__node-output {
+  background: transparent !important;
+}
+
+/* Fix any potential white areas in the canvas */
+.react-flow__selection {
+  background: rgba(0, 212, 230, 0.1) !important;
+  border: 1px solid #00D4E6 !important;
+}
+
+.react-flow__nodesselection-rect {
+  background: rgba(0, 212, 230, 0.1) !important;
+  border: 1px solid #00D4E6 !important;
+}

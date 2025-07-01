@@ -16,7 +16,7 @@ import {
   Chip
 } from '@mui/material';
 import { ExpandMore, Search } from '@mui/icons-material';
-import { DivideIcon as LucideIcon } from 'lucide-react';
+// Lucide React icons are dynamically imported
 import * as Icons from 'lucide-react';
 import { AWS_SERVICES } from '../config/awsServices';
 
@@ -60,7 +60,7 @@ const ServicesSidebar: React.FC<ServicesSidebarProps> = ({ open }) => {
   };
 
   const handleCategoryChange = (category: string) => (
-    _: React.SyntheticEvent,
+    _event: React.SyntheticEvent,
     isExpanded: boolean
   ) => {
     setExpandedCategory(isExpanded ? category : '');
@@ -72,7 +72,6 @@ const ServicesSidebar: React.FC<ServicesSidebarProps> = ({ open }) => {
       anchor="left"
       open={open}
       sx={{
-        width: DRAWER_WIDTH,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
@@ -139,7 +138,7 @@ const ServicesSidebar: React.FC<ServicesSidebarProps> = ({ open }) => {
 
       <Box className="flex-1 overflow-y-auto">
         {categories.map((category) => {
-          let categoryItems: any[] = [];
+          let categoryItems: Array<{ id: string; name: string; description: string; icon: string; color: string; category: string; }> = [];
           
           if (category === 'Triggers') {
             categoryItems = filteredTriggers;
@@ -197,7 +196,7 @@ const ServicesSidebar: React.FC<ServicesSidebarProps> = ({ open }) => {
               <AccordionDetails sx={{ padding: 0 }}>
                 <List dense>
                   {categoryItems.map((item) => {
-                    const IconComponent = Icons[item.icon as keyof typeof Icons] as LucideIcon;
+                    const IconComponent = Icons[item.icon as keyof typeof Icons] as React.ComponentType<{ size?: number | string; style?: React.CSSProperties; }>;
                     
                     return (
                       <ListItem

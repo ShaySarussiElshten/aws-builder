@@ -16,7 +16,7 @@ import ReactFlow, {
   ReactFlowInstance,
   MarkerType
 } from 'reactflow';
-import 'reactflow/dist/style.css';
+// ReactFlow CSS is imported globally in index.css
 import { useWorkflowStore } from '../store/workflowStore';
 import { AWS_SERVICES } from '../config/awsServices';
 import CustomNode from './CustomNode';
@@ -155,7 +155,7 @@ const WorkflowCanvas: React.FC<WorkflowCanvasProps> = ({ onNodeClick }) => {
   }, []);
 
   return (
-    <div className="flex-1 h-full" ref={reactFlowWrapper}>
+    <div className="flex-1 h-full w-full" ref={reactFlowWrapper} style={{ background: 'transparent' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -190,17 +190,17 @@ const WorkflowCanvas: React.FC<WorkflowCanvasProps> = ({ onNodeClick }) => {
         }}
         fitView
         fitViewOptions={{
-          padding: 0.3, // Increased padding to 30%
+          padding: 0.1,
           minZoom: 0.3,
           maxZoom: 1.2,
           includeHiddenNodes: false
         }}
-        translateExtent={[[-200, -200], [2000, 2000]]} // Allow more space for movement
-        nodeExtent={[[-100, -100], [1800, 1800]]} // Prevent nodes from going too far left/right
+        translateExtent={[[-500, -500], [2500, 2500]]}
+        nodeExtent={[[-400, -400], [2100, 2100]]}
         style={{ 
-          padding: '40px', // Increased internal padding
-          minHeight: '100%',
-          background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 25%, #334155 50%, #1E293B 75%, #0F172A 100%)',
+          width: '100%',
+          height: '100%',
+          background: 'transparent',
         }}
       >
         <Controls 

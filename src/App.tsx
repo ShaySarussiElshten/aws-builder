@@ -270,7 +270,7 @@ function AppContent() {
   };
 
   return (
-    <Box className="flex h-screen" style={{ background: 'linear-gradient(135deg, #F8FAFB 0%, #EDF2F7 100%)' }}>
+    <Box className="flex h-screen" style={{ background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 25%, #334155 50%, #1E293B 75%, #0F172A 100%)' }}>
       {/* Header */}
       <AppBar 
         position="fixed" 
@@ -363,18 +363,24 @@ function AppContent() {
       </AppBar>
 
       {/* Main Content */}
-      <Box className="flex flex-1 mt-16">
+      <Box 
+        className="flex flex-1 mt-16"
+        sx={{ 
+          background: 'transparent',
+          minHeight: 'calc(100vh - 64px)' // Subtract header height
+        }}
+      >
         <ServicesSidebar open={sidebarOpen} />
         
-        <Box 
+        <div 
           className="flex-1 flex"
-          sx={{ 
+          style={{ 
             marginLeft: sidebarOpen ? '320px' : 0,
             transition: 'margin 0.3s ease'
           }}
         >
           <WorkflowCanvas onNodeClick={handleNodeClick} />
-        </Box>
+        </div>
         
         <ConfigurationPanel />
       </Box>

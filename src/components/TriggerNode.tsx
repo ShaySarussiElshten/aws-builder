@@ -93,7 +93,7 @@ const TriggerNode: React.FC<NodeProps> = ({ data, selected }) => {
         position={Position.Bottom}
         className="w-2 h-2 border-2 border-cyan-400 transition-all duration-200"
         style={{ 
-          background: 'white',
+          background: '#00D4E6',
           boxShadow: '0 2px 8px 0 rgba(0, 212, 230, 0.5)',
         }}
       />
