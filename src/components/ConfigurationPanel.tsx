@@ -309,6 +309,7 @@ console.log('Testing with event:', testEvent);`);
         sx={{
           width: DRAWER_WIDTH,
           flexShrink: 0,
+          zIndex: 1200, // Ensure it's above other elements
           '& .MuiDrawer-paper': {
             width: DRAWER_WIDTH,
             boxSizing: 'border-box',
@@ -317,6 +318,9 @@ console.log('Testing with event:', testEvent);`);
             boxShadow: '-4px 0 20px 0 rgba(0, 0, 0, 0.05)',
             marginTop: '64px', // Add margin to push content below header
             height: 'calc(100vh - 64px)', // Adjust height to account for header
+            position: 'fixed',
+            right: 0,
+            top: 64,
           },
         }}
       >

@@ -30,11 +30,13 @@ const CustomNode: React.FC<NodeProps> = ({ data, selected }) => {
       <Handle
         type="target"
         position={Position.Top}
-        className="w-2 h-2 border-2 transition-all duration-200"
+        className="w-3 h-3 border-2 transition-all duration-200"
         style={{ 
           background: selected ? data.color : '#00D4E6',
           borderColor: selected ? data.color : '#00D4E6',
           boxShadow: `0 2px 8px 0 ${data.color}40`,
+          top: -6,
+          zIndex: 10,
         }}
       />
       
@@ -119,11 +121,13 @@ const CustomNode: React.FC<NodeProps> = ({ data, selected }) => {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="w-2 h-2 border-2 transition-all duration-200"
+        className="w-3 h-3 border-2 transition-all duration-200"
         style={{ 
           background: data.color,
           borderColor: data.color,
           boxShadow: `0 2px 8px 0 ${data.color}50`,
+          bottom: -6,
+          zIndex: 10,
         }}
       />
     </Card>

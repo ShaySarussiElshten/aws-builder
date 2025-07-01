@@ -91,10 +91,12 @@ const TriggerNode: React.FC<NodeProps> = ({ data, selected }) => {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="w-2 h-2 border-2 border-cyan-400 transition-all duration-200"
+        className="w-3 h-3 border-2 border-cyan-400 transition-all duration-200"
         style={{ 
           background: '#00D4E6',
           boxShadow: '0 2px 8px 0 rgba(0, 212, 230, 0.5)',
+          bottom: -6,
+          zIndex: 10,
         }}
       />
     </Card>

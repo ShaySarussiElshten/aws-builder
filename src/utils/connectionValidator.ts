@@ -2,6 +2,11 @@ import { Node } from 'reactflow';
 import { AWS_SERVICES } from '../config/awsServices';
 
 export const validateConnection = (sourceNode: Node, targetNode: Node): boolean => {
+  // Don't allow self-connections
+  if (sourceNode.id === targetNode.id) {
+    return false;
+  }
+
   // Allow triggers to connect to any AWS service
   if (sourceNode.data.service === 'trigger') {
     return targetNode.data.service !== 'trigger';
@@ -16,6 +21,7 @@ export const validateConnection = (sourceNode: Node, targetNode: Node): boolean 
   const targetService = AWS_SERVICES.find(s => s.id === targetNode.data.service);
 
   if (!sourceService || !targetService) {
+    console.log('Service not found:', { sourceService: sourceNode.data.service, targetService: targetNode.data.service });
     return false;
   }
 
@@ -25,7 +31,20 @@ export const validateConnection = (sourceNode: Node, targetNode: Node): boolean 
   // Check if target can receive from source
   const canReceive = targetService.connectionRules.canReceiveFrom.includes(sourceService.id);
 
-  return canConnect && canReceive;
+  const isValid = canConnect && canReceive;
+  
+  if (!isValid) {
+    console.log('Connection validation failed:', {
+      source: sourceService.name,
+      target: targetService.name,
+      canConnect,
+      canReceive,
+      sourceRules: sourceService.connectionRules.canConnectTo,
+      targetRules: targetService.connectionRules.canReceiveFrom
+    });
+  }
+
+  return isValid;
 };
 
 export const getValidTargets = (sourceNodeService: string): string[] => {

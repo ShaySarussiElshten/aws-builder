@@ -14,7 +14,8 @@ import ReactFlow, {
   BackgroundVariant,
   ReactFlowProvider,
   ReactFlowInstance,
-  MarkerType
+  MarkerType,
+  ConnectionMode
 } from 'reactflow';
 // ReactFlow CSS is imported globally in index.css
 import { useWorkflowStore } from '../store/workflowStore';
@@ -54,12 +55,25 @@ const WorkflowCanvas: React.FC<WorkflowCanvasProps> = ({ onNodeClick }) => {
 
   const onConnect = useCallback(
     (params: Connection) => {
+      // Ensure we have valid source and target
+      if (!params.source || !params.target) {
+        console.log('Invalid connection: missing source or target');
+        return;
+      }
+
       const sourceNode = nodes.find(n => n.id === params.source);
       const targetNode = nodes.find(n => n.id === params.target);
       
-      if (sourceNode && targetNode && validateConnection(sourceNode, targetNode)) {
-        setEdges(addEdge({ 
-          ...params, 
+      if (!sourceNode || !targetNode) {
+        console.log('Invalid connection: nodes not found');
+        return;
+      }
+
+      // Validate the connection
+      if (validateConnection(sourceNode, targetNode)) {
+        const newEdge = {
+          ...params,
+          id: `edge-${params.source}-${params.target}-${Date.now()}`,
           type: 'smoothstep',
           animated: true,
           style: { 
@@ -73,7 +87,12 @@ const WorkflowCanvas: React.FC<WorkflowCanvasProps> = ({ onNodeClick }) => {
             width: 25,
             height: 25,
           }
-        }, edges));
+        };
+
+        setEdges(addEdge(newEdge, edges));
+        console.log('Connection created successfully:', newEdge);
+      } else {
+        console.log('Connection validation failed');
       }
     },
     [nodes, edges, setEdges]
@@ -154,6 +173,18 @@ const WorkflowCanvas: React.FC<WorkflowCanvasProps> = ({ onNodeClick }) => {
     // Add context menu functionality here
   }, []);
 
+  // Handle connection validation
+  const isValidConnection = useCallback((connection: Connection) => {
+    if (!connection.source || !connection.target) return false;
+    
+    const sourceNode = nodes.find(n => n.id === connection.source);
+    const targetNode = nodes.find(n => n.id === connection.target);
+    
+    if (!sourceNode || !targetNode) return false;
+    
+    return validateConnection(sourceNode, targetNode);
+  }, [nodes]);
+
   return (
     <div className="flex-1 h-full w-full" ref={reactFlowWrapper} style={{ background: 'transparent' }}>
       <ReactFlow
@@ -168,6 +199,8 @@ const WorkflowCanvas: React.FC<WorkflowCanvasProps> = ({ onNodeClick }) => {
         onNodeClick={(_, node) => onNodeClick(node)}
         onNodeContextMenu={onNodeContextMenu}
         nodeTypes={nodeTypes}
+        isValidConnection={isValidConnection}
+        connectionMode={ConnectionMode.Loose}
         connectionLineStyle={{ 
           stroke: '#00D4E6', 
           strokeWidth: 3,
@@ -197,6 +230,8 @@ const WorkflowCanvas: React.FC<WorkflowCanvasProps> = ({ onNodeClick }) => {
         }}
         translateExtent={[[-500, -500], [2500, 2500]]}
         nodeExtent={[[-400, -400], [2100, 2100]]}
+        snapToGrid={true}
+        snapGrid={[15, 15]}
         style={{ 
           width: '100%',
           height: '100%',
